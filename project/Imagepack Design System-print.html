@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imagepack — Design System</title>
+<link rel="stylesheet" href="imagepack-ds.css">
+<script src="brand/image-slot.js"></script>
+<style>
+/* ---------- page-specific ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .row{display:flex;align-items:center;justify-content:space-between;height:66px}
+.nav .brand{display:flex;align-items:center;gap:14px}
+.nav .brand img{height:22px}
+.nav .brand .tag{border:0;background:transparent;padding:0;color:var(--slate-400)}
+.nav .links{display:flex;gap:20px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500)}
+.nav .links a{transition:.15s}
+.nav .links a:hover{color:var(--red)}
+@media(max-width:1080px){.nav .links{display:none}}
+
+/* hero / key visual */
+.hero{padding:var(--s24) 0 var(--s32);position:relative;overflow:hidden}
+.hero .grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--s16);align-items:center}
+.hero h1{font-size:clamp(2.6rem,5.6vw,4.7rem);text-transform:uppercase;color:var(--ink);line-height:.98}
+.hero h1 .dot{color:var(--red)}
+.hero .lead{margin:var(--s6) 0 var(--s8);max-width:46ch}
+.hero .cta{display:flex;gap:var(--s4);flex-wrap:wrap}
+.hero .metarow{display:flex;gap:var(--s6);margin-top:var(--s12);flex-wrap:wrap}
+.hero .metarow .m{display:flex;flex-direction:column;gap:3px}
+.hero .metarow .m b{font-family:var(--display);color:var(--ink);font-size:22px;text-transform:uppercase}
+.hero .metarow .m span{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--slate-400);text-transform:uppercase}
+@media(max-width:880px){.hero .grid2{grid-template-columns:1fr;gap:var(--s12)}}
+
+/* key visual poster */
+.kv{position:relative;border:1px solid var(--line);background:var(--white);padding:22px;box-shadow:var(--shadow-md)}
+.kv .kv-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-400);margin-bottom:18px}
+.kv .kv-stage{position:relative;background:var(--red);--cut:34px;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.kv .kv-stage img{width:62%}
+.kv .kv-stage::before{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1px,transparent 1px 26px)}
+.kv .kv-stage .corner{position:absolute;bottom:14px;right:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.7);text-transform:uppercase}
+.kv .kv-seals{position:absolute;top:16px;left:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.kv .kv-seal{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(4px);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px;white-space:nowrap}
+.kv .kv-seal svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.kv .kv-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500)}
+.kv .kv-bottom .pill{display:flex;align-items:center;gap:7px}
+.kv .kv-bottom .pill::before{content:"";width:9px;height:9px;background:var(--red)}
+
+/* brand essence */
+.essence{display:grid;grid-template-columns:1fr 1fr;gap:var(--s16);align-items:start}
+.essence .big{font-family:var(--display);font-weight:600;text-transform:uppercase;color:var(--ink);font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.05;letter-spacing:-.01em}
+.essence .vals{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.essence .vals .v{background:#fff;padding:var(--s8) var(--s6)}
+.essence .vals .v .licon{width:30px;height:30px;margin-bottom:14px}
+.essence .vals .v h4{margin:0 0 7px;font-size:17px;text-transform:uppercase;letter-spacing:.01em;line-height:1.08}
+.essence .vals .v p{font-size:13.5px;color:var(--slate-500);margin:0;line-height:1.5}
+@media(max-width:880px){.essence{grid-template-columns:1fr;gap:var(--s8)}}
+
+/* logo section */
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.logo-cell{border:1px solid var(--line);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;position:relative}
+.logo-cell img{width:64%}
+.logo-cell .cap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-400)}
+.logo-cell.dark{background:var(--ink)}.logo-cell.dark .cap{color:var(--slate-400)}
+.logo-cell.red{background:var(--red)}.logo-cell.red .cap{color:rgba(255,255,255,.7)}
+.logo-cell.mist{background:var(--mist)}
+@media(max-width:760px){.logo-grid{grid-template-columns:1fr 1fr}}
+
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);margin-top:var(--s8)}
+.dl{border:1px solid var(--line);padding:var(--s6);display:flex;gap:14px;align-items:flex-start}
+.dl .ic{width:26px;height:26px;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:15px;border:1px solid}
+.dl.do .ic{color:#1b7a44;border-color:#bfe3cd;background:#eef8f1}
+.dl.dont .ic{color:var(--red);border-color:var(--red-line);background:var(--red-wash)}
+.dl h4{font-size:15px;text-transform:none;font-family:var(--sans);margin-bottom:3px;color:var(--ink)}
+.dl p{font-size:13.5px;color:var(--slate-500);margin:0}
+@media(max-width:760px){.dl-grid{grid-template-columns:1fr}}
+
+/* colors */
+.pal{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:var(--s4)}
+.pal .sw.hero-sw .chip{height:200px}
+.neu{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid var(--line);margin-top:var(--s4)}
+.neu .ncell{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;border-right:1px solid var(--line)}
+.neu .ncell:last-child{border-right:0}
+.neu .ncell .bar{height:46px}
+.neu .ncell .nn{font-family:var(--display);font-size:12px;text-transform:uppercase;color:var(--ink);font-weight:600}
+.neu .ncell .nv{font-family:var(--mono);font-size:10px;color:var(--slate-500)}
+@media(max-width:880px){.pal{grid-template-columns:1fr 1fr}.neu{grid-template-columns:1fr 1fr 1fr}}
+
+/* directions */
+.dirs{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s6)}
+.dir{border:1px solid var(--line);background:#fff;display:flex;flex-direction:column}
+.dir .poster{aspect-ratio:16/7;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:20px}
+.dir .poster .lab{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.dir .poster h3{font-family:var(--display);text-transform:uppercase;font-size:28px;line-height:.95}
+.dir .poster .swrow{display:flex;gap:6px}
+.dir .poster .swrow i{width:24px;height:24px;display:block;border-radius:0}
+/* applied example (mini mockup) */
+.dir .dir-ex{aspect-ratio:16/9;position:relative;overflow:hidden;border-top:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+.dir .dir-ex .ex-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px}
+.dir .dir-ex .ex-eyebrow::before{content:"";width:16px;height:1px;background:currentColor;display:inline-block}
+.dir .dir-ex .ex-h{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(1.1rem,2vw,1.5rem);line-height:.98;max-width:14ch}
+.dir .dir-ex .ex-row{display:flex;align-items:center;gap:12px}
+.dir .dir-ex .ex-btn{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:11px;padding:8px 14px;--cut:8px;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%)}
+.dir .dir-ex .ex-seal{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border:1px solid}
+.dir .dir-ex .ex-prod{position:absolute;right:-10px;bottom:-10px;opacity:.9}
+.dir .info{padding:var(--s5);border-top:1px solid var(--line)}
+.dir .info .nm{font-family:var(--display);text-transform:uppercase;font-size:16px;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:8px}
+.dir .info .nm .rec{font-family:var(--mono);font-size:9px;letter-spacing:.1em;background:var(--red);color:#fff;padding:3px 7px;text-transform:uppercase}
+.dir .info .nm .rec.alt{background:var(--ink)}
+.dir .info p{font-size:13.5px;color:var(--slate-500);margin:8px 0 0}
+/* A galeria — white */
+.dir.A .poster{background:#fff}
+.dir.A .poster .lab{color:var(--slate-400)}
+.dir.A .poster h3{color:var(--ink)} .dir.A .poster h3 em{font-style:normal;color:var(--red)}
+.dir.A .dir-ex{background:#fff}
+.dir.A .dir-ex .ex-eyebrow{color:var(--red)}
+.dir.A .dir-ex .ex-h{color:var(--ink)}
+.dir.A .dir-ex .ex-btn{background:var(--red);color:#fff}
+.dir.A .dir-ex .ex-seal{color:var(--slate-500);border-color:var(--line)}
+.dir.A .dir-ex .ex-prod{color:var(--red-line)}
+/* R sinal — RED forward */
+.dir.R .poster{background:var(--red)}
+.dir.R .poster::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 1px,transparent 1px 22px)}
+.dir.R .poster > *{position:relative;z-index:1}
+.dir.R .poster .lab{color:rgba(255,255,255,.75)}
+.dir.R .poster h3{color:#fff} .dir.R .poster h3 em{font-style:normal;color:var(--ink)}
+.dir.R .dir-ex{background:var(--red)}
+.dir.R .dir-ex::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 1px,transparent 1px 22px)}
+.dir.R .dir-ex > *{position:relative;z-index:1}
+.dir.R .dir-ex .ex-eyebrow{color:rgba(255,255,255,.85)}
+.dir.R .dir-ex .ex-h{color:#fff}
+.dir.R .dir-ex .ex-btn{background:#fff;color:var(--red)}
+.dir.R .dir-ex .ex-seal{color:#fff;border-color:rgba(255,255,255,.45)}
+.dir.R .dir-ex .ex-prod{color:rgba(255,255,255,.4)}
+/* B grafite — dark */
+.dir.B .poster{background:var(--ink)}
+.dir.B .poster .lab{color:var(--slate-400)}
+.dir.B .poster h3{color:#fff} .dir.B .poster h3 em{font-style:normal;color:var(--red-bright)}
+.dir.B .dir-ex{background:var(--ink)}
+.dir.B .dir-ex .ex-eyebrow{color:var(--red-bright)}
+.dir.B .dir-ex .ex-h{color:#fff}
+.dir.B .dir-ex .ex-btn{background:var(--red);color:#fff}
+.dir.B .dir-ex .ex-seal{color:var(--slate-400);border-color:#2c2e33}
+.dir.B .dir-ex .ex-prod{color:#26282d}
+/* C blueprint — technical */
+.dir.C .poster{background:var(--paper);background-image:
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:28px 28px}
+.dir.C .poster .lab{color:var(--slate-500)}
+.dir.C .poster h3{color:var(--ink)} .dir.C .poster h3 em{font-style:normal;color:var(--red)}
+.dir.C .dir-ex{background:var(--paper);background-image:
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:22px 22px}
+.dir.C .dir-ex .ex-eyebrow{color:var(--red)}
+.dir.C .dir-ex .ex-h{color:var(--ink)}
+.dir.C .dir-ex .ex-btn{background:var(--ink);color:#fff}
+.dir.C .dir-ex .ex-seal{color:var(--slate-600);border-color:var(--slate-300);background:rgba(255,255,255,.7)}
+.dir.C .dir-ex .ex-prod{color:var(--slate-300)}
+@media(max-width:880px){.dirs{grid-template-columns:1fr}}
+
+/* typography */
+.type-spec{border:1px solid var(--line)}
+.type-row{display:grid;grid-template-columns:170px 1fr;gap:var(--s8);padding:var(--s6) var(--s8);border-bottom:1px solid var(--line);align-items:baseline}
+.type-row:last-child{border-bottom:0}
+.type-row .meta{font-family:var(--mono);font-size:11px;color:var(--slate-500);letter-spacing:.05em;text-transform:uppercase;line-height:1.7}
+.type-row .meta b{color:var(--ink);display:block;font-family:var(--display);font-size:14px}
+.type-row .demo{color:var(--ink)}
+.specimen{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4);margin-top:var(--s8)}
+.specimen .fc{border:1px solid var(--line);padding:var(--s6)}
+.specimen .fc .glyph{font-size:54px;line-height:1;color:var(--ink);margin-bottom:14px}
+.specimen .fc .fn{font-family:var(--display);text-transform:uppercase;font-size:15px;color:var(--ink);font-weight:600}
+.specimen .fc .fr{font-family:var(--mono);font-size:11px;color:var(--slate-500);margin-top:4px}
+.specimen .fc .set{font-size:13px;color:var(--slate-500);margin-top:10px;word-spacing:2px}
+@media(max-width:760px){.type-row{grid-template-columns:1fr;gap:var(--s3)}.specimen{grid-template-columns:1fr}}
+
+/* elements / motif */
+.elem{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+.elem .ecard{border:1px solid var(--line);overflow:hidden}
+.elem .ecard .top{height:200px;position:relative;overflow:hidden;background:var(--paper)}
+.elem .ecard .body{padding:var(--s6)}
+.elem .ecard h4{font-size:16px;text-transform:uppercase;margin-bottom:6px}
+.elem .ecard p{font-size:13.5px;color:var(--slate-500);margin:0}
+/* motif visuals */
+.m-chamfer{position:absolute;inset:26px;background:var(--red);--cut:40px}
+.m-bars{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 30px}
+.m-bars i{height:12px;background:var(--ink);display:block}
+.m-bars i:nth-child(1){width:70%}.m-bars i:nth-child(2){width:40%;background:var(--red)}.m-bars i:nth-child(3){width:55%}
+.m-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:24px 24px}
+.m-grid::after{content:"";position:absolute;left:30px;top:40px;width:90px;height:90px;background:var(--red);--cut:24px;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%)}
+.m-diag{position:absolute;inset:0;background:var(--ink)}
+.m-diag::after{content:"";position:absolute;inset:0;background:var(--red);clip-path:polygon(0 100%,100% 0,100% 100%)}
+@media(max-width:760px){.elem{grid-template-columns:1fr}}
+
+/* product icon grid */
+.picon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s4)}
+.picell{border:1px solid var(--line);aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#fff;transition:.15s}
+.picell:hover{background:var(--red-wash);border-color:var(--red-line)}
+.picell .piname{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-500)}
+@media(max-width:760px){.picon-grid{grid-template-columns:1fr 1fr 1fr}}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.comp{border:1px solid var(--line);padding:var(--s8);display:flex;flex-direction:column;gap:var(--s5)}
+.comp .clab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-400)}
+.comp .demo{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.field{border:1px solid var(--slate-300);padding:13px 14px;font-family:var(--sans);font-size:15px;color:var(--slate-500);min-width:230px;background:#fff}
+.field:focus{outline:2px solid var(--red);outline-offset:-1px}
+.ui-card{border:1px solid var(--line);width:100%;--cut:18px}
+.ui-card .uimg{height:120px}
+.ui-card .ubody{padding:var(--s5)}
+.ui-card .ubody .ut{font-family:var(--display);text-transform:uppercase;font-size:16px;color:var(--ink);font-weight:600}
+.ui-card .ubody .up2{font-size:13px;color:var(--slate-500);margin:6px 0 0}
+@media(max-width:760px){.comp-grid{grid-template-columns:1fr}}
+
+/* footer */
+.foot{background:var(--ink);color:#fff;padding:var(--s24) 0 var(--s12)}
+.foot .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:var(--s16);align-items:start}
+.foot img.lg{height:30px;margin-bottom:var(--s6)}
+.foot p{color:var(--slate-400)}
+.foot .applink{display:flex;flex-direction:column;gap:2px}
+.foot .applink a{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-top:1px solid #2a2c31;font-family:var(--display);text-transform:uppercase;font-size:18px;color:#fff;transition:.15s}
+.foot .applink a:hover{color:var(--red-bright);padding-left:8px}
+.foot .applink a:last-child{border-bottom:1px solid #2a2c31}
+.foot .applink a span{font-family:var(--sans);font-weight:600}
+.foot .legal{margin-top:var(--s16);padding-top:var(--s6);border-top:1px solid #2a2c31;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-500)}
+@media(max-width:880px){.foot .grid2{grid-template-columns:1fr;gap:var(--s10)}.foot .legal{flex-direction:column;gap:10px}}
+
+/* section number label */
+.snum{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--slate-300);text-transform:uppercase}
+
+/* authority / B2B */
+.auth-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s6)}
+.client-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.client-wall .cli{background:#fff;aspect-ratio:8/5;width:100%;display:block;filter:grayscale(1);opacity:.85;transition:.18s}
+.client-wall .cli:hover{filter:grayscale(0);opacity:1}
+.auth-seg{border:1px solid var(--line);padding:var(--s6);display:flex;flex-direction:column}
+.seg-list{display:flex;flex-wrap:wrap;gap:8px}
+.auth-materials{margin-top:auto;padding-top:var(--s6);display:flex;flex-direction:column;gap:0}
+.matrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.matrow .mlabel{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-400)}
+.matrow .mval{font-family:var(--display);font-weight:600;font-size:13px;text-transform:uppercase;color:var(--ink);letter-spacing:.01em}
+.unit-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s4)}
+.unit-grid .unit{aspect-ratio:4/3;width:100%;height:100%;display:block;border:1px solid var(--line);background:var(--mist);position:relative;overflow:hidden}
+.unit-grid .unit img{width:100%;height:100%;object-fit:cover;display:block}
+.unit-grid .unit .unit-tag{position:absolute;left:0;bottom:0;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--red);padding:6px 10px;white-space:nowrap}
+.unit-grid .unit-wide{aspect-ratio:16/10}
+@media(max-width:880px){.auth-grid{grid-template-columns:1fr}.unit-grid{grid-template-columns:1fr 1fr}.unit-grid .unit-wide{grid-column:1/-1}.client-wall{grid-template-columns:repeat(3,1fr)}}
+
+/* AI tools section */
+.ia-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.ia-card{border:1px solid var(--line);background:#fff;display:flex;flex-direction:column}
+.ia-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.ia-card pre{margin:0;padding:18px 18px 20px;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--slate-700);background:var(--paper);overflow-x:auto;white-space:pre;flex:1}
+.copybtn{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);background:var(--red-wash);border:1px solid var(--red-line);padding:6px 12px;cursor:pointer;transition:.15s}
+.copybtn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.copybtn.done{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media(max-width:880px){.ia-grid{grid-template-columns:1fr}}
+
+/* ============ PRINT ============ */
+@media print{
+  @page{ size:A4 portrait; margin:14mm; }
+  html,body{ background:#fff !important; }
+  *,*::before,*::after{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+    animation-delay:-99s !important; animation-duration:.001s !important;
+    transition-duration:0s !important;
+  }
+  .nav{ display:none !important; }
+  .hero{ padding:8mm 0 6mm !important; }
+  section{ padding:8mm 0 !important; }
+  .wrap{ padding:0 !important; max-width:none !important; }
+  .divider{ display:none !important; }
+  .hero{ break-after:page; }
+  #marca, #autoridade, #logo, #cores, #tipografia, #elementos, #componentes, #recomendacoes, #ia{ break-before:page; }
+  .essence, .logo-grid, .dl-grid, .pal, .neu, .dirs, .type-spec, .specimen, .elem,
+  .comp-grid, .grid, .sec-head, .kv, .dir, .ecard, .comp, .card, .sw, .fc,
+  .proof, .auth-grid, .client-wall, .unit-grid, .picon-grid, .ia-grid, .ia-card{ break-inside:avoid; }
+  .foot{ break-before:page; padding:12mm 0 8mm !important; }
+  .kv,.browser{ box-shadow:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="wrap row">
+    <div class="brand">
+      <img src="brand/logo-red.png" alt="Imagepack">
+      <span class="tag mono">Design System</span>
+    </div>
+    <div class="links">
+      <a href="#marca">Marca</a>
+      <a href="#autoridade">Autoridade</a>
+      <a href="#logo">Logo</a>
+      <a href="#cores">Cores</a>
+      <a href="#tipografia">Tipografia</a>
+      <a href="#elementos">Elementos</a>
+      <a href="#componentes">Componentes</a>
+      <a href="#ia">IA</a>
+      <a href="Aplicações.html">Aplicações&nbsp;↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HERO / KEY VISUAL ===================== -->
+<header class="hero">
+  <div class="wrap grid2">
+    <div>
+      <span class="eyebrow">Imagepack · Manual de Marca · v1.0</span>
+      <h1 style="margin-top:22px">Um sistema de marca para embalagens de <span class="dot">precisão.</span></h1>
+      <p class="lead">Uma linguagem visual clara, técnica e sóbria — construída sobre o vermelho Imagepack e muito respiro. Do site ao social, da papelaria à apresentação institucional.</p>
+      <div class="cta">
+        <a href="#cores" class="btn cut btn-arrow">Explorar fundamentos</a>
+        <a href="Aplicações.html" class="btn btn-ghost">Ver aplicações</a>
+      </div>
+      <div class="metarow">
+        <div class="m"><b>+10</b><span>Anos de mercado</span></div>
+        <div class="m"><b>+200</b><span>Clientes ativos</span></div>
+        <div class="m"><b>02</b><span>Unidades · SP + MG</span></div>
+      </div>
+    </div>
+
+    <!-- KEY VISUAL POSTER -->
+    <div class="kv">
+      <div class="kv-top"><span>Key Visual</span><span>Pantone 1797</span></div>
+      <div class="kv-stage cut-tr-bl">
+        <img src="brand/logo-white.png" alt="Imagepack">
+        <span class="corner">23°27′S · 46°31′W</span>
+        <div class="kv-seals">
+          <span class="kv-seal"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 5.5V11c0 5-3.4 8.4-8 9.8C7.4 19.4 4 16 4 11V5.5L12 2.5Z"/><path d="M8.6 11.8l2.4 2.4 4.4-4.6"/></svg>+10 anos</span>
+          <span class="kv-seal"><svg viewBox="0 0 24 24"><path d="M3 13l1.5-5h11l3.5 4h2.5v4h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></svg>Pronta entrega</span>
+        </div>
+      </div>
+      <div class="kv-bottom">
+        <span class="pill">Guarulhos — SP</span>
+        <span>+200 clientes ativos</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<hr class="divider">
+
+<!-- ===================== MARCA / ESSENCE ===================== -->
+<section id="marca">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">01 — A Marca</span>
+      <h2 class="h-sec">A embalagem que protege e destaca</h2>
+    </div>
+    <div class="essence">
+      <div>
+        <p class="big">Fundada em 2016, a Imagepack é indústria e distribuidora de embalagens plásticas — frascos, potes, bisnagas, garrafas PET e tampas que protegem o produto e fazem a marca se destacar na gôndola.</p>
+        <p class="muted" style="margin-top:var(--s6);max-width:52ch">Empresa 100% brasileira, com matriz em Guarulhos (SP) e filial em Extrema (MG). Unimos escala industrial, pronta entrega e atendimento consultivo — o conceito <strong>“Entender para Atender”</strong>. Frascos em PEAD, PP e PET, com rotulagem e silk screen. O sistema visual traduz isso: técnico, organizado e confiante, sem ruído.</p>
+      </div>
+      <div class="vals">
+        <div class="v">
+          <span class="licon"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 5.5V11c0 5-3.4 8.4-8 9.8C7.4 19.4 4 16 4 11V5.5L12 2.5Z"/><path d="M8.6 11.8l2.4 2.4 4.4-4.6"/></svg></span>
+          <h4>Proteção</h4><p>Embalagem que protege o produto — e a reputação da marca.</p>
+        </div>
+        <div class="v">
+          <span class="licon"><svg viewBox="0 0 24 24"><path d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <h4>Visibilidade</h4><p>Destaque na prateleira: design que faz o consumidor olhar.</p>
+        </div>
+        <div class="v">
+          <span class="licon"><svg viewBox="0 0 24 24"><path d="M9.5 18h5M10 21h4"/><path d="M12 3a6 6 0 0 1 3.8 10.6c-.7.6-1.1 1.3-1.2 2.1l-.1.8H9.5l-.1-.8c-.1-.8-.5-1.5-1.2-2.1A6 6 0 0 1 12 3Z"/></svg></span>
+          <h4>Inovação</h4><p>Materiais e soluções sempre um passo à frente.</p>
+        </div>
+        <div class="v">
+          <span class="licon"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 6.1 6.6.5-5 4.3 1.6 6.4L12 17.4 6.2 20.8l1.6-6.4-5-4.3 6.6-.5L12 3Z"/></svg></span>
+          <h4>Alta resolução</h4><p>Impressão nítida, cores fiéis, acabamento impecável.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== AUTORIDADE B2B ===================== -->
+<section id="autoridade">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">02 — Autoridade & Prova</span>
+      <h2 class="h-sec">Confiança é o argumento B2B</h2>
+      <p class="lead">Em vendas para indústria, a decisão passa por confiança. Estes blocos — selos, números, clientes e a estrutura real — devem aparecer no Key Visual, no site e nas propostas para sustentar a autoridade da marca.</p>
+    </div>
+
+    <!-- seals row -->
+    <div class="kicker" style="margin-bottom:12px">Selos de autoridade — use no KV e em CTAs</div>
+    <div class="proof" style="margin-bottom:var(--s12)">
+      <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 5.5V11c0 5-3.4 8.4-8 9.8C7.4 19.4 4 16 4 11V5.5L12 2.5Z"/><path d="M8.6 11.8l2.4 2.4 4.4-4.6"/></svg></span><b>+10 anos</b><span>de mercado</span></span>
+      <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6a3 3 0 0 1 0 6M16.5 19a5.5 5.5 0 0 0-3-5"/></svg></span><b>+200</b><span>clientes ativos</span></span>
+      <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><path d="M3 13l1.5-5h11l3.5 4h2.5v4h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></svg></span><b>Pronta entrega</b><span>sem volume mínimo</span></span>
+      <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2L19 19M19 5l-2.8 2.8M7.8 16.2 5 19"/><circle cx="12" cy="12" r="3.5"/></svg></span><b>100% nacional</b><span>indústria brasileira</span></span>
+      <span class="badge solid"><span class="licon"><svg viewBox="0 0 24 24"><path d="M20 7 9 18l-5-5"/></svg></span><b>Entender</b><span>para Atender</span></span>
+    </div>
+
+    <div class="auth-grid">
+      <!-- clients wall -->
+      <div class="auth-clients">
+        <div class="kicker" style="margin-bottom:14px">Marcas que confiam · arraste os logos dos clientes</div>
+        <div class="client-wall">
+          <image-slot id="cli-1" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-2" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-3" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-4" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-5" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-6" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-7" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+          <image-slot id="cli-8" class="cli" fit="contain" placeholder="Logo cliente"></image-slot>
+        </div>
+        <p class="muted" style="font-size:13px;margin-top:14px">Logos em escala de cinza, mesmo tamanho óptico, alinhados ao grid. Ao passar o mouse, podem ganhar cor — sinal sutil de orgulho da carteira.</p>
+      </div>
+
+      <!-- segments served -->
+      <div class="auth-seg">
+        <div class="kicker" style="margin-bottom:14px">8 segmentos atendidos</div>
+        <div class="seg-list">
+          <span class="seg food">Alimentício</span>
+          <span class="seg food">Bebidas</span>
+          <span class="seg food">Laticínios</span>
+          <span class="seg chem">Agro</span>
+          <span class="seg chem">Saneantes</span>
+          <span class="seg chem">Cosméticos</span>
+          <span class="seg disp">Farmacêuticos</span>
+          <span class="seg disp">Standard</span>
+        </div>
+        <div class="auth-materials">
+          <div class="matrow"><span class="mlabel">Materiais</span><span class="mval">PEAD · PP · PET</span></div>
+          <div class="matrow"><span class="mlabel">Serviços</span><span class="mval">Rotulagem · Silk Screen</span></div>
+          <div class="matrow"><span class="mlabel">Unidades</span><span class="mval">Guarulhos-SP · Extrema-MG</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- unit photos -->
+    <div class="kicker" style="margin:var(--s12) 0 14px">A estrutura real — matriz, filial e operação</div>
+    <div class="unit-grid">
+      <div class="unit unit-wide"><img src="brand/fabrica-guarulhos.jpeg" alt="Fachada Imagepack Guarulhos"><span class="unit-tag">Matriz · Guarulhos — SP</span></div>
+      <div class="unit"><img src="brand/fabrica-extrema.jpeg" alt="Unidade Imagepack Extrema"><span class="unit-tag">Filial · Extrema — MG</span></div>
+      <image-slot id="unit-3" class="unit" fit="cover" placeholder="Linha de produção / equipe"></image-slot>
+    </div>
+    <p class="muted" style="font-size:13px;margin-top:14px">Fotografia real da operação transmite escala e seriedade — muito mais convincente que banco de imagens. Mantenha tratamento consistente: luz neutra, leve dessaturação, acento vermelho quando possível.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== LOGO ===================== -->
+<section id="logo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">03 — Logo</span>
+      <h2 class="h-sec">Aplicação correta da marca</h2>
+      <p class="lead">A marca transfere valores e conceitos. Privilegie sempre a versão em cor; recorra ao monocromático apenas quando necessário. Respeite a área de respiro — a altura da letra “K” — em todos os lados.</p>
+    </div>
+
+    <div class="logo-grid">
+      <div class="logo-cell"><img src="brand/logo-red.png" alt=""><span class="cap">Principal · Fundo branco</span></div>
+      <div class="logo-cell dark"><img src="brand/logo-white.png" alt=""><span class="cap">Negativo · Fundo escuro</span></div>
+      <div class="logo-cell mist"><img src="brand/logo-red.png" alt=""><span class="cap">Cinza ≤ 40%</span></div>
+      <div class="logo-cell red"><img src="brand/logo-white.png" alt=""><span class="cap">Sobre vermelho</span></div>
+      <div class="logo-cell"><img src="brand/logo-ink.png" alt=""><span class="cap">Monocromático positivo</span></div>
+      <div class="logo-cell dark"><img src="brand/logo-white.png" alt=""><span class="cap">Monocromático negativo</span></div>
+    </div>
+
+    <div class="dl-grid">
+      <div class="dl do"><div class="ic">✓</div><div><h4>Mantenha o respiro</h4><p>Reserve a área livre mínima ao redor da marca. Redução mínima: 25&nbsp;mm de largura.</p></div></div>
+      <div class="dl do"><div class="ic">✓</div><div><h4>Contraste suficiente</h4><p>Use a versão que garante leitura sobre o fundo escolhido.</p></div></div>
+      <div class="dl dont"><div class="ic">✕</div><div><h4>Não distorça nem incline</h4><p>Não altere proporção, rotação ou espaçamento das letras.</p></div></div>
+      <div class="dl dont"><div class="ic">✕</div><div><h4>Não recolora fora do padrão</h4><p>Apenas vermelho, branco ou monocromático aprovados.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== CORES ===================== -->
+<section id="cores">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">04 — Cores</span>
+      <h2 class="h-sec">Vermelho como acento, branco como base</h2>
+      <p class="lead">O vermelho Imagepack (Pantone 1797) é o sinal da marca — usado com intenção sobre uma base neutra fria e muita área branca. Os neutros estruturam; o vermelho aponta.</p>
+    </div>
+
+    <div class="pal">
+      <div class="sw hero-sw">
+        <div class="chip" style="background:var(--red)"></div>
+        <div class="meta"><span class="name">Imagepack Red</span><span class="val">HEX #CB161D</span><span class="val">RGB 203·22·29</span><span class="val">CMYK 14·100·100·4</span><span class="val">Pantone 1797 C</span></div>
+      </div>
+      <div class="sw"><div class="chip" style="background:var(--red-deep)"></div><div class="meta"><span class="name">Deep</span><span class="val">#9E1116</span><span class="val">Hover / pressão</span></div></div>
+      <div class="sw"><div class="chip" style="background:var(--red-bright)"></div><div class="meta"><span class="name">Bright</span><span class="val">#E23A33</span><span class="val">Telas / destaque</span></div></div>
+      <div class="sw"><div class="chip" style="background:var(--red-wash);border-bottom:1px solid var(--line)"></div><div class="meta"><span class="name">Wash</span><span class="val">#FBECEC</span><span class="val">Fundos sutis</span></div></div>
+    </div>
+
+    <div class="kicker" style="margin:var(--s10) 0 10px">Neutros — cinza institucional (#A7A9AC) + escala fria</div>
+    <div class="neu">
+      <div class="ncell"><div class="bar" style="background:var(--ink)"></div><span class="nn">Ink</span><span class="nv">#16171A</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--slate-700)"></div><span class="nn">Slate 700</span><span class="nv">#3C3F45</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--steel)"></div><span class="nn">Steel</span><span class="nv">#A7A9AC</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--slate-500)"></div><span class="nn">Slate 500</span><span class="nv">#6B6F77</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--slate-300)"></div><span class="nn">Slate 300</span><span class="nv">#C3C7CD</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--mist)"></div><span class="nn">Mist</span><span class="nv">#EEF0F2</span></div>
+      <div class="ncell"><div class="bar" style="background:var(--white);border:1px solid var(--line)"></div><span class="nn">White</span><span class="nv">#FFFFFF</span></div>
+    </div>
+
+    <!-- DIRECTIONS -->
+    <div class="sec-head" style="margin-top:var(--s24)">
+      <span class="eyebrow slate">04.1 — Direções de paleta</span>
+      <h3 class="h-sub">Quatro temperamentos, um só DNA</h3>
+      <p class="lead">O mesmo sistema em quatro climas — cada cartão mostra a paleta <strong>e um exemplo aplicado</strong>, para você ver como cada direção comunica. Escolha uma para conduzir; o vermelho pode ser acento ou protagonista.</p>
+    </div>
+    <div class="dirs">
+
+      <div class="dir A">
+        <div class="poster">
+          <span class="lab">Direção A · Acento</span>
+          <h3>Branco e <em>preciso</em></h3>
+          <div class="swrow"><i style="background:#fff;border:1px solid var(--line)"></i><i style="background:var(--mist)"></i><i style="background:var(--slate-500)"></i><i style="background:var(--red)"></i></div>
+        </div>
+        <div class="dir-ex">
+          <span class="picon ex-prod"><svg viewBox="0 0 48 48" width="92" height="92"><path d="M21 5h6v4l1 4c2 2 3 4 3 8 0 2-1 3-1 5s1 3 1 5-1 2-1 4a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3c0-2-1-2-1-4s1-3 1-5-1-3-1-5c0-4 1-6 3-8l1-4V5Z"/></svg></span>
+          <span class="ex-eyebrow">Embalagens · Alimentício</span>
+          <div class="ex-h">Sua marca na gôndola</div>
+          <div class="ex-row"><span class="ex-btn">Orçamento</span><span class="ex-seal">+10 anos</span></div>
+        </div>
+        <div class="info"><div class="nm">Galeria <span class="rec">Site / Institucional</span></div><p>Branco protagonista, vermelho cirúrgico. Elegante e atemporal — ideal para o site e materiais corporativos.</p></div>
+      </div>
+
+      <div class="dir R">
+        <div class="poster">
+          <span class="lab">Direção R · Protagonista</span>
+          <h3>Vermelho <em>sinal</em></h3>
+          <div class="swrow"><i style="background:var(--red)"></i><i style="background:var(--red-deep)"></i><i style="background:#fff"></i><i style="background:var(--ink)"></i></div>
+        </div>
+        <div class="dir-ex">
+          <span class="picon ex-prod"><svg viewBox="0 0 48 48" width="92" height="92"><path d="M21 5h6v4l1 4c2 2 3 4 3 8 0 2-1 3-1 5s1 3 1 5-1 2-1 4a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3c0-2-1-2-1-4s1-3 1-5-1-3-1-5c0-4 1-6 3-8l1-4V5Z"/></svg></span>
+          <span class="ex-eyebrow">Embalagens · Alimentício</span>
+          <div class="ex-h">Sua marca na gôndola</div>
+          <div class="ex-row"><span class="ex-btn">Orçamento</span><span class="ex-seal">+10 anos</span></div>
+        </div>
+        <div class="info"><div class="nm">Sinal <span class="rec">Campanha / Social</span></div><p>Vermelho dominante, máximo impacto e energia. Para anúncios, promoções e posts que precisam parar o feed.</p></div>
+      </div>
+
+      <div class="dir B">
+        <div class="poster">
+          <span class="lab">Direção B · Acento</span>
+          <h3>Grafite <em>premium</em></h3>
+          <div class="swrow"><i style="background:var(--ink)"></i><i style="background:var(--slate-700)"></i><i style="background:#fff"></i><i style="background:var(--red-bright)"></i></div>
+        </div>
+        <div class="dir-ex">
+          <span class="picon ex-prod"><svg viewBox="0 0 48 48" width="92" height="92"><path d="M21 5h6v4l1 4c2 2 3 4 3 8 0 2-1 3-1 5s1 3 1 5-1 2-1 4a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3c0-2-1-2-1-4s1-3 1-5-1-3-1-5c0-4 1-6 3-8l1-4V5Z"/></svg></span>
+          <span class="ex-eyebrow">Embalagens · Alimentício</span>
+          <div class="ex-h">Sua marca na gôndola</div>
+          <div class="ex-row"><span class="ex-btn">Orçamento</span><span class="ex-seal">+10 anos</span></div>
+        </div>
+        <div class="info"><div class="nm">Grafite</div><p>Base escura, vermelho que brilha. Sofisticado e premium — bom para capas de apresentação e destaques.</p></div>
+      </div>
+
+      <div class="dir C">
+        <div class="poster">
+          <span class="lab">Direção C · Acento</span>
+          <h3>Técnica <em>industrial</em></h3>
+          <div class="swrow"><i style="background:var(--paper)"></i><i style="background:var(--slate-300)"></i><i style="background:var(--slate-600)"></i><i style="background:var(--red)"></i></div>
+        </div>
+        <div class="dir-ex">
+          <span class="picon ex-prod"><svg viewBox="0 0 48 48" width="92" height="92"><path d="M21 5h6v4l1 4c2 2 3 4 3 8 0 2-1 3-1 5s1 3 1 5-1 2-1 4a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3c0-2-1-2-1-4s1-3 1-5-1-3-1-5c0-4 1-6 3-8l1-4V5Z"/></svg></span>
+          <span class="ex-eyebrow">Embalagens · Alimentício</span>
+          <div class="ex-h">Sua marca na gôndola</div>
+          <div class="ex-row"><span class="ex-btn">Orçamento</span><span class="ex-seal">+10 anos</span></div>
+        </div>
+        <div class="info"><div class="nm">Blueprint</div><p>Grid visível, legendas mono, sensação de engenharia. Reforça precisão e processo em fichas técnicas e catálogos.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== TIPOGRAFIA ===================== -->
+<section id="tipografia">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">05 — Tipografia</span>
+      <h2 class="h-sec">Angular no título, clara no texto</h2>
+      <p class="lead">Para preservar o espírito técnico da DOMM, os títulos usam <strong>Chakra Petch</strong> — uma sans de cantos chanfrados. O texto corre em <strong>Archivo</strong>, e detalhes técnicos em <strong>IBM Plex Mono</strong>.</p>
+    </div>
+
+    <div class="type-spec">
+      <div class="type-row"><div class="meta"><b>Chakra Petch</b>Display · 600 · UPPER<br>−1% tracking</div><div class="demo display" style="font-size:clamp(2rem,4vw,3.4rem)">EMBALAGEM DE PRECISÃO</div></div>
+      <div class="type-row"><div class="meta"><b>Chakra Petch</b>Subtítulo · 600</div><div class="demo" style="font-family:var(--display);font-size:26px;text-transform:uppercase;color:var(--ink)">Soluções personalizadas</div></div>
+      <div class="type-row"><div class="meta"><b>Archivo</b>Corpo · 400 · 17px<br>line-height 1.6</div><div class="demo" style="font-family:var(--sans);font-size:17px;color:var(--slate-700);font-weight:400;max-width:60ch">A Imagepack oferece soluções de embalagens personalizadas e de alta qualidade para clientes em todo o Brasil, combinando escala industrial com acabamento de precisão e atendimento próximo.</div></div>
+      <div class="type-row"><div class="meta"><b>IBM Plex Mono</b>Técnico · 500 · UPPER<br>+12% tracking</div><div class="demo mono" style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-500)">Pantone 1797 · Guarulhos—SP · Est. 2016</div></div>
+    </div>
+
+    <div class="specimen">
+      <div class="fc"><div class="glyph" style="font-family:var(--display);font-weight:600">Aa</div><div class="fn">Chakra Petch</div><div class="fr">Display · 400 500 600 700</div><div class="set" style="font-family:var(--display)">ABCDEFG abcdefg 0123456789</div></div>
+      <div class="fc"><div class="glyph" style="font-family:var(--sans);font-weight:600">Aa</div><div class="fn">Archivo</div><div class="fr">Texto · 400 500 600 700</div><div class="set" style="font-family:var(--sans)">ABCDEFG abcdefg 0123456789</div></div>
+      <div class="fc"><div class="glyph" style="font-family:var(--mono)">Aa</div><div class="fn">IBM Plex Mono</div><div class="fr">Técnico · 400 500</div><div class="set" style="font-family:var(--mono)">ABCDEFG abcdefg 0123456789</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== ELEMENTOS ===================== -->
+<section id="elementos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">06 — Elementos gráficos</span>
+      <h2 class="h-sec">O sistema visual em peças</h2>
+      <p class="lead">Quatro dispositivos recorrentes dão consistência ao sistema. Usados com parcimônia, criam ritmo sem poluir.</p>
+    </div>
+    <div class="elem">
+      <div class="ecard"><div class="top"><div class="m-chamfer cut-tr"></div></div><div class="body"><h4>O corte chanfrado</h4><p>O canto cortado ecoa as letras da marca. Aplique em blocos, botões e molduras — sempre no mesmo ângulo.</p></div></div>
+      <div class="ecard"><div class="top"><div class="m-bars"><i></i><i></i><i></i></div></div><div class="body"><h4>Barras de sinal</h4><p>Faixas curtas em vermelho marcam seções e títulos — herança direta das faixas do manual original.</p></div></div>
+      <div class="ecard"><div class="top"><div class="m-grid"></div></div><div class="body"><h4>Grid técnico</h4><p>Uma malha sutil organiza o layout e reforça a ideia de precisão e processo industrial.</p></div></div>
+      <div class="ecard"><div class="top"><div class="m-diag"></div></div><div class="body"><h4>Diagonal de impacto</h4><p>O corte diagonal vermelho cria movimento em capas e campanhas. Use como acento, nunca como ruído.</p></div></div>
+    </div>
+
+    <!-- PRODUCT ICONOGRAPHY -->
+    <div class="sec-head" style="margin-top:var(--s20)">
+      <span class="eyebrow slate">05.1 — Iconografia de produtos</span>
+      <h3 class="h-sub">Ícones de linha para as linhas de embalagem</h3>
+      <p class="lead">Um conjunto consistente em traço — mesmo peso, cantos vivos — representa cada tipo de produto em sites, cards e anúncios. Sempre em vermelho ou monocromático.</p>
+    </div>
+    <div class="picon-grid">
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M19 6h10v5l2 3.5V39a3 3 0 0 1-3 3H20a3 3 0 0 1-3-3V14.5L19 11V6Z"/><path d="M17 22h14"/></svg></span><span class="piname">Frasco</span></div>
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M13 15h22v23a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3V15Z"/><path d="M10 8h28v7H10z"/></svg></span><span class="piname">Pote</span></div>
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M20 11l-1.5-3.5h11L28 11"/><path d="M20 11h8c0 4 4 6 4 13v11a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4V24c0-7 4-9 4-13Z"/></svg></span><span class="piname">Bisnaga</span></div>
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M21 5h6v4l1 4c2 2 3 4 3 8 0 2-1 3-1 5s1 3 1 5-1 2-1 4a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3c0-2-1-2-1-4s1-3 1-5-1-3-1-5c0-4 1-6 3-8l1-4V5Z"/></svg></span><span class="piname">Garrafa PET</span></div>
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M13 17h22v16a4 4 0 0 1-4 4H17a4 4 0 0 1-4-4V17Z"/><path d="M13 17c0-4 5-7 11-7s11 3 11 7"/><path d="M18 17v20M24 17v20M30 17v20"/></svg></span><span class="piname">Tampa</span></div>
+      <div class="picell"><span class="picon"><svg viewBox="0 0 48 48" width="46" height="46"><path d="M14 15h20v24a3 3 0 0 1-3 3H17a3 3 0 0 1-3-3V15Z"/><path d="M20 15v-5h8v5"/><path d="M28 10h4a2 2 0 0 1 2 2v3"/></svg></span><span class="piname">Bombona</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== COMPONENTES ===================== -->
+<section id="componentes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">07 — Componentes</span>
+      <h2 class="h-sec">Blocos para web e landing</h2>
+    </div>
+    <div class="comp-grid">
+      <div class="comp">
+        <span class="clab">Botões & estados</span>
+        <div class="demo">
+          <button class="btn cut btn-arrow">Solicitar orçamento</button>
+          <button class="btn-wa cut"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.5-.3.4c-.2.2-.3.4-.1.7.2.4.9 1.5 2 2.4 1.3 1.2 2.4 1.5 2.7 1.7.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.5Z"/></svg>WhatsApp</button>
+          <button class="btn btn-ghost">Saber mais</button>
+          <button class="btn cut is-disabled">Desabilitado</button>
+        </div>
+        <span class="micro">Resposta em até 1 dia útil</span>
+      </div>
+      <div class="comp">
+        <span class="clab">Formulário (pré-qualificação)</span>
+        <div class="demo" style="flex-direction:column;align-items:stretch">
+          <input class="field" placeholder="Nome / empresa">
+          <input class="field" placeholder="WhatsApp ou e-mail">
+          <button class="btn cut" style="align-self:flex-start">Solicitar orçamento →</button>
+        </div>
+        <span class="micro">Sem volume mínimo · pronta entrega</span>
+      </div>
+      <div class="comp">
+        <span class="clab">Card de produto · CTA individual</span>
+        <div class="ui-card cut-tr">
+          <div class="uimg" style="height:170px;background:#fff;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+            <span class="seg chem" style="position:absolute;top:12px;left:12px;z-index:2">Saneantes</span>
+            <img src="brand/prod-frasco.jpg" alt="Frasco PEAD Imagepack" style="height:100%;object-fit:cover">
+          </div>
+          <div class="ubody"><div class="ut">Frasco PEAD · 1 L</div><p class="up2">Para saneantes e químicos — tampa com lacre e silk screen.</p>
+            <button class="btn-wa cut" style="margin-top:14px;padding:10px 16px;font-size:12px"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.5-.3.4c-.2.2-.3.4-.1.7.2.4.9 1.5 2 2.4 1.3 1.2 2.4 1.5 2.7 1.7.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.5Z"/></svg>Pedir cotação</button>
+          </div>
+        </div>
+      </div>
+      <div class="comp">
+        <span class="clab">Segmentos & prova social</span>
+        <div class="demo">
+          <span class="seg food">Alimentício</span>
+          <span class="seg chem">Químico · Agro</span>
+          <span class="seg disp">Descartáveis</span>
+        </div>
+        <div class="proof">
+          <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><path d="M12 2.5 20 5.5V11c0 5-3.4 8.4-8 9.8C7.4 19.4 4 16 4 11V5.5L12 2.5Z"/><path d="M8.6 11.8l2.4 2.4 4.4-4.6"/></svg></span><b>+10 anos</b><span>de mercado</span></span>
+          <span class="badge"><span class="licon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6a3 3 0 0 1 0 6M16.5 19a5.5 5.5 0 0 0-3-5"/></svg></span><b>+200</b><span>clientes ativos</span></span>
+          <span class="badge solid"><span class="licon"><svg viewBox="0 0 24 24"><path d="M3 13l1.5-5h11l3.5 4h2.5v4h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6"/></svg></span><b>Pronta entrega</b><span>sem volume mínimo</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== RECOMENDAÇÕES ===================== -->
+<section id="recomendacoes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">08 — Recomendações</span>
+      <h2 class="h-sec">Princípios de uso</h2>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="snum">P / 01</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Branco é protagonista</h4><p class="muted" style="font-size:14px;margin:0">Deixe respirar. O vazio comunica precisão e sofisticação — não preencha por preencher.</p></div>
+      <div class="card"><div class="snum">P / 02</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Vermelho com intenção</h4><p class="muted" style="font-size:14px;margin:0">O vermelho aponta o que importa: um CTA, um número, um detalhe. Em excesso, perde força.</p></div>
+      <div class="card"><div class="snum">P / 03</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Cantos retos</h4><p class="muted" style="font-size:14px;margin:0">Sem arredondamentos genéricos. Cantos vivos ou o chanfro da marca — sempre técnico.</p></div>
+      <div class="card"><div class="snum">P / 04</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Alinhe ao grid</h4><p class="muted" style="font-size:14px;margin:0">Tudo se apoia na malha. Alinhamento consistente é metade da elegância.</p></div>
+      <div class="card"><div class="snum">P / 05</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Voz técnica e direta</h4><p class="muted" style="font-size:14px;margin:0">Frases curtas, concretas, confiantes. Fale de qualidade e prazo, não de superlativos.</p></div>
+      <div class="card"><div class="snum">P / 06</div><h4 style="margin:14px 0 8px;font-size:18px;text-transform:uppercase">Foto com propósito</h4><p class="muted" style="font-size:14px;margin:0">Imagens reais de embalagem, bem iluminadas e enquadradas no grid. Evite banco de imagem genérico.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ===================== PARA IA ===================== -->
+<section id="ia">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">09 — Para ferramentas de IA</span>
+      <h2 class="h-sec">Pronto para colar no Lovable & afins</h2>
+      <p class="lead">Para gerar páginas, posts e anúncios com IA mantendo a marca, cole os blocos abaixo. São os mesmos tokens e regras deste sistema, em formato que a IA entende.</p>
+    </div>
+    <div class="ia-grid">
+      <div class="ia-card">
+        <div class="ia-head"><span class="clab">Tokens CSS</span><button class="copybtn" data-copy="tok-css">Copiar</button></div>
+        <pre id="tok-css">:root{
+  --red:#CB161D;      /* marca / CTA */
+  --red-deep:#9F1015; /* hover */
+  --steel:#A7A9AC;    /* cinza institucional */
+  --ink:#16171A;      /* texto forte */
+  --slate-500:#6B6F77;/* texto apoio */
+  --line:#E4E6E9;     /* bordas */
+  --white:#FFFFFF;    /* base */
+  --wa:#25D366;       /* WhatsApp */
+  --font-display:"Chakra Petch";
+  --font-text:"Archivo";
+  --font-mono:"IBM Plex Mono";
+  --radius:0px;       /* cantos vivos */
+}</pre>
+      </div>
+      <div class="ia-card">
+        <div class="ia-head"><span class="clab">Brand prompt</span><button class="copybtn" data-copy="tok-prompt">Copiar</button></div>
+        <pre id="tok-prompt">Marca: Imagepack — indústria/distribuidora de
+embalagens plásticas (frascos, potes, bisnagas,
+garrafas PET, tampas, bombonas). 100% brasileira,
++10 anos, matriz Guarulhos-SP e filial Extrema-MG.
+
+Estilo: industrial, técnico, sóbrio e confiável.
+Muito branco, vermelho #CB161D só como acento e
+nos CTAs. Cantos vivos (sem arredondar). Títulos
+em Chakra Petch MAIÚSCULO, texto em Archivo,
+detalhes técnicos em IBM Plex Mono.
+
+Conversão: CTA primário vermelho + botão WhatsApp
+(#25D366). Microcopy de confiança perto do CTA
+("Resposta em até 1 dia útil", "Sem volume mínimo").
+Selos: "+10 anos", "+200 clientes", "Pronta entrega".
+Tom: direto e consultivo — "Entender para Atender".</pre>
+      </div>
+    </div>
+    <p class="muted" style="font-size:13.5px;margin-top:var(--s5);max-width:70ch">As fontes estão no Google Fonts (Chakra Petch, Archivo, IBM Plex Mono) — peça à IA para importá-las. Use os ícones de produto e os componentes desta página como referência visual.</p>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <img class="lg" src="brand/logo-white.png" alt="Imagepack">
+        <p style="max-width:46ch">Sistema de identidade visual — versão 1.0. Soluções de embalagens personalizadas, de Guarulhos (SP) e Extrema (MG) para todo o Brasil e o mundo.</p>
+      </div>
+      <div>
+        <span class="eyebrow slate" style="margin-bottom:14px;display:inline-flex">Aplicações</span>
+        <div class="applink">
+          <a href="Aplicações.html#landing">Landing page <span>↗</span></a>
+          <a href="Aplicações.html#social">Post de Instagram <span>↗</span></a>
+          <a href="Aplicações.html#papelaria">Cartão & papelaria <span>↗</span></a>
+          <a href="Aplicações.html#apresentacao">Apresentação <span>↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>Imagepack · Design System v1.0</span>
+      <span>Pantone 1797 · +10 anos de mercado</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copybtn').forEach(function(b){
+  b.addEventListener('click', function(){
+    var el = document.getElementById(b.dataset.copy);
+    if(!el) return;
+    var t = el.innerText;
+    navigator.clipboard.writeText(t).then(function(){
+      var old = b.textContent; b.textContent='Copiado ✓'; b.classList.add('done');
+      setTimeout(function(){ b.textContent=old; b.classList.remove('done'); }, 1600);
+    });
+  });
+});
+(function(){
+  function go(){ setTimeout(function(){ window.print(); }, 700); }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function(){
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+    });
+  } else { window.addEventListener('load', go); }
+})();
+</script>
+
+</body>
+</html>

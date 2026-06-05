@@ -1,0 +1,251 @@
+/* =========================================================
+   IMAGEPACK — Design System
+   Foundations: tokens, type, primitives
+   ========================================================= */
+
+/* ---- Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ---- Tokens ---- */
+:root{
+  /* brand red — official #CB161D */
+  --red:        #CB161D;   /* Pantone 1797 · RGB 203·22·29 */
+  --red-deep:   #9F1015;
+  --red-bright: #E23A33;
+  --red-wash:   #FBECEC;
+  --red-line:   #F3D2D2;
+
+  /* official brand gray */
+  --steel:      #A7A9AC;   /* Cinza Imagepack */
+
+  /* WhatsApp (CTA) */
+  --wa:         #25D366;
+  --wa-deep:    #1EB155;
+
+  /* neutrals — cool slate, very low chroma */
+  --ink:      #16171A;
+  --graphite: #25272C;
+  --slate-700:#3C3F45;
+  --slate-600:#52565D;
+  --slate-500:#6B6F77;
+  --slate-400:#9A9EA6;
+  --slate-300:#C3C7CD;
+  --line:     #E4E6E9;
+  --mist:     #EEF0F2;
+  --paper:    #F6F6F5;
+  --white:    #FFFFFF;
+
+  /* segment accents (marketing fronts) */
+  --seg-food:  #CB161D;  /* Alimentício */
+  --seg-chem:  #2F6F4F;  /* Químico / Agro */
+  --seg-disp:  #1F6FB0;  /* Descartáveis / Bebidas */
+
+  /* type */
+  --display: 'Chakra Petch', sans-serif;
+  --sans:    'Archivo', sans-serif;
+  --mono:    'IBM Plex Mono', monospace;
+
+  /* spacing (4px base) */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px;
+  --s8:32px; --s10:40px; --s12:48px; --s16:64px; --s20:80px; --s24:96px; --s32:128px;
+
+  /* radius — angular brand, kept sharp */
+  --r-xs:2px; --r-sm:3px; --r-md:4px;
+
+  /* chamfer */
+  --cut:14px;
+
+  --maxw:1200px;
+  --shadow-sm:0 1px 2px rgba(20,22,26,.05), 0 1px 1px rgba(20,22,26,.04);
+  --shadow-md:0 10px 30px -12px rgba(20,22,26,.18);
+  --shadow-lg:0 30px 60px -24px rgba(20,22,26,.28);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--slate-700);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-size:17px;
+  line-height:1.6;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---- Type primitives ---- */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--red);
+  font-weight:500;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.eyebrow::before{
+  content:"";
+  width:22px;height:1px;background:var(--red);display:inline-block;
+}
+.eyebrow.slate{color:var(--slate-400)}
+.eyebrow.slate::before{background:var(--slate-300)}
+.eyebrow.nomark::before{display:none}
+
+.kicker{
+  font-family:var(--mono);
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--slate-400);font-weight:500;
+}
+
+h1,h2,h3,h4{
+  font-family:var(--display);
+  color:var(--ink);
+  font-weight:600;
+  line-height:1.02;
+  letter-spacing:-.01em;
+  margin:0;
+}
+.display{
+  font-family:var(--display);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:-.01em;
+  line-height:.96;
+  color:var(--ink);
+  font-size:clamp(2.6rem,6.4vw,5.6rem);
+}
+.h-sec{font-size:clamp(2rem,3.6vw,3.1rem);text-transform:uppercase;letter-spacing:-.01em;}
+.h-sub{font-size:clamp(1.4rem,2.2vw,1.9rem);}
+.lead{
+  font-family:var(--sans);
+  font-size:clamp(1.05rem,1.5vw,1.3rem);
+  line-height:1.55;
+  color:var(--slate-600);
+  font-weight:400;
+}
+p{margin:0 0 1em}
+strong{color:var(--ink);font-weight:600}
+
+/* ---- Layout ---- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s8)}
+section{padding:var(--s32) 0}
+.sec-head{display:flex;flex-direction:column;gap:var(--s4);margin-bottom:var(--s16);max-width:760px}
+.grid{display:grid;gap:var(--s6)}
+.divider{height:1px;background:var(--line);border:0;margin:0}
+
+/* ---- Chamfer utility (angular cut, echoes DOMM letterforms) ---- */
+.cut-tr{clip-path:polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%)}
+.cut-bl{clip-path:polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)))}
+.cut-tr-bl{clip-path:polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)))}
+
+/* ---- Buttons ---- */
+.btn{
+  font-family:var(--display);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-size:14px;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 24px;
+  background:var(--red);color:#fff;
+  border:1px solid var(--red);
+  cursor:pointer;
+  transition:.18s ease;
+  white-space:nowrap;
+  --cut:12px;
+}
+.btn.cut{clip-path:polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%)}
+.btn:hover{background:var(--red-deep);border-color:var(--red-deep)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--slate-300)}
+.btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-arrow::after{content:"→";font-family:var(--sans);font-weight:600}
+
+/* ---- Tags / chips ---- */
+.tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate-500);padding:5px 10px;border:1px solid var(--line);background:var(--white);
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.tag.red{color:var(--red);border-color:var(--red-line);background:var(--red-wash)}
+
+/* ---- Cards ---- */
+.card{background:var(--white);border:1px solid var(--line);padding:var(--s8)}
+.card.pad-lg{padding:var(--s12)}
+
+/* placeholder imagery */
+.ph{
+  position:relative;background:
+    repeating-linear-gradient(135deg,var(--mist),var(--mist) 9px,#fff 9px,#fff 18px);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--slate-400);font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;
+}
+.ph.dark{
+  background:repeating-linear-gradient(135deg,#1c1d21,#1c1d21 9px,#232428 9px,#232428 18px);
+  border-color:#2c2e33;color:#6b6f77;
+}
+.ph .ph-lab{padding:8px 12px;border:1px dashed currentColor;}
+
+/* swatch */
+.sw{display:flex;flex-direction:column;border:1px solid var(--line);background:#fff}
+.sw .chip{height:120px}
+.sw .meta{padding:14px 16px;display:flex;flex-direction:column;gap:3px}
+.sw .name{font-family:var(--display);font-weight:600;color:var(--ink);font-size:15px;text-transform:uppercase;letter-spacing:.02em}
+.sw .val{font-family:var(--mono);font-size:11px;color:var(--slate-500);letter-spacing:.04em}
+
+/* utility */
+.mono{font-family:var(--mono)}
+.up{text-transform:uppercase}
+.red{color:var(--red)}
+.muted{color:var(--slate-500)}
+.center{text-align:center}
+.mt0{margin-top:0}
+
+/* line icons (brand iconography — red outline) */
+.licon{color:var(--red);display:inline-flex;align-items:center;justify-content:center}
+.licon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---- WhatsApp CTA ---- */
+.btn-wa{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:14px;
+  display:inline-flex;align-items:center;gap:10px;padding:14px 24px;
+  background:var(--wa);color:#fff;border:1px solid var(--wa);cursor:pointer;transition:.18s ease;white-space:nowrap;--cut:12px;
+}
+.btn-wa.cut{clip-path:polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%)}
+.btn-wa:hover{background:var(--wa-deep);border-color:var(--wa-deep)}
+.btn-wa svg{width:18px;height:18px;fill:currentColor}
+
+/* ---- button states (reference for AI tools) ---- */
+.btn:disabled,.btn.is-disabled{background:var(--slate-300);border-color:var(--slate-300);color:#fff;cursor:not-allowed;pointer-events:none}
+.btn:focus-visible{outline:3px solid var(--red-line);outline-offset:2px}
+
+/* ---- trust / proof badges ---- */
+.proof{display:flex;flex-wrap:wrap;gap:var(--s3)}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:11px 15px;border:1px solid var(--line);background:#fff;white-space:nowrap}
+.badge .licon{width:22px;height:22px;flex:none}
+.badge b{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:15px;color:var(--ink);letter-spacing:.01em}
+.badge span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500)}
+.badge.solid{background:var(--ink);border-color:var(--ink)}
+.badge.solid b{color:#fff}.badge.solid span{color:var(--slate-400)}
+.badge.solid .licon{color:var(--red-bright)}
+
+/* microcopy (trust line near CTAs) */
+.micro{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-500);display:inline-flex;align-items:center;gap:7px}
+.micro::before{content:"";width:7px;height:7px;background:var(--wa);border-radius:50%;flex:none}
+
+/* segment chips */
+.seg{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;display:inline-flex;align-items:center;gap:7px;border:1px solid;font-weight:500}
+.seg::before{content:"";width:8px;height:8px;flex:none}
+.seg.food{color:var(--seg-food);border-color:var(--red-line);background:var(--red-wash)}.seg.food::before{background:var(--seg-food)}
+.seg.chem{color:var(--seg-chem);border-color:#cfe3d7;background:#eef6f1}.seg.chem::before{background:var(--seg-chem)}
+.seg.disp{color:var(--seg-disp);border-color:#cfe1ef;background:#eef4f9}.seg.disp::before{background:var(--seg-disp)}
+
+/* product icon (large line illustration) */
+.picon{color:var(--red);display:inline-flex}
+.picon svg{stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
