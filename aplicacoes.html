@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imagepack — Aplicações</title>
+<link rel="stylesheet" href="imagepack-ds.css">
+<script src="brand/image-slot.js"></script>
+<style>
+body{background:#ECEDEE}
+.nav{position:sticky;top:0;z-index:50;background:rgba(236,237,238,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .row{display:flex;align-items:center;justify-content:space-between;height:66px}
+.nav .brand{display:flex;align-items:center;gap:14px}
+.nav .brand img{height:22px}
+.nav .brand .tag{border:0;background:transparent;padding:0;color:var(--slate-400)}
+.nav .links{display:flex;gap:26px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate-500)}
+.nav .links a:hover{color:var(--red)}
+@media(max-width:880px){.nav .links{display:none}}
+
+.pagehead{padding:var(--s20) 0 var(--s12)}
+.pagehead h1{font-size:clamp(2.4rem,5vw,4rem);text-transform:uppercase;color:var(--ink);line-height:.98}
+.pagehead .lead{max-width:54ch;margin-top:var(--s5)}
+
+/* frame around each application mock */
+.appsec{padding:var(--s16) 0}
+.appsec > .wrap > .lab{display:flex;align-items:baseline;gap:14px;margin-bottom:var(--s8)}
+.appsec .lab .n{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--red);text-transform:uppercase}
+.appsec .lab h2{font-size:clamp(1.5rem,2.6vw,2.2rem);text-transform:uppercase;color:var(--ink)}
+.appsec .lab .d{font-family:var(--sans);color:var(--slate-500);font-size:14px;margin-left:auto;max-width:38ch;text-align:right}
+@media(max-width:760px){.appsec .lab{flex-direction:column;gap:6px}.appsec .lab .d{text-align:left;margin-left:0}}
+
+/* ---------- browser frame ---------- */
+.browser{border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-lg);overflow:hidden}
+.browser .bar{height:42px;display:flex;align-items:center;gap:8px;padding:0 16px;border-bottom:1px solid var(--line);background:#F4F4F3}
+.browser .bar .dot{width:11px;height:11px;border-radius:50%;background:#D9DBDE}
+.browser .url{flex:1;margin-left:12px;max-width:340px;font-family:var(--mono);font-size:11px;color:var(--slate-400);background:#fff;border:1px solid var(--line);padding:6px 12px}
+
+/* landing content */
+.lp-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--line)}
+.lp-nav img{height:20px}
+.lp-nav .menu{display:flex;gap:26px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500);align-items:center}
+.lp-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;padding:60px 40px;align-items:center}
+.lp-hero h2{font-size:clamp(2rem,3.4vw,3.2rem);text-transform:uppercase;color:var(--ink);line-height:.98}
+.lp-hero h2 em{font-style:normal;color:var(--red)}
+.lp-hero p{color:var(--slate-600);margin:18px 0 26px;max-width:42ch}
+.lp-hero .kv-stage{position:relative;background:#fff;--cut:30px;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--line)}
+.lp-hero .kv-stage::before{content:"";position:absolute;top:0;right:0;width:90px;height:90px;background:var(--red);clip-path:polygon(100% 0,0 0,100% 100%);z-index:2}
+.lp-hero .kv-stage img.prod{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.lp-hero .kv-stage .cap{position:absolute;bottom:14px;left:18px;z-index:3;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--slate-500);text-transform:uppercase;background:rgba(255,255,255,.85);padding:5px 9px;white-space:nowrap}
+.lp-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.lp-strip .s{padding:26px 40px;border-right:1px solid var(--line)}
+.lp-strip .s:last-child{border-right:0}
+.lp-strip .s .num{font-family:var(--display);font-weight:600;font-size:34px;color:var(--ink)}
+.lp-strip .s .num em{font-style:normal;color:var(--red)}
+.lp-strip .s .t{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500);margin-top:6px}
+@media(max-width:760px){.lp-hero{grid-template-columns:1fr;gap:28px;padding:32px 22px}.lp-nav{padding:16px 22px}.lp-nav .menu{display:none}.lp-strip{grid-template-columns:1fr 1fr}}
+
+/* product line in landing */
+.lp-products{padding:40px;border-top:1px solid var(--line)}
+.lp-prod-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px}
+.lp-prod-all{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.prod-card{border:1px solid var(--line);background:#fff;overflow:hidden;transition:.18s}
+.prod-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.prod-img{aspect-ratio:1/1;background:#fff;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.prod-body{padding:16px;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line)}
+.prod-name{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:16px;color:var(--ink);margin-top:2px}
+.prod-spec{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-500)}
+@media(max-width:760px){.lp-products{padding:24px 22px}.prod-grid{grid-template-columns:1fr 1fr}}
+
+/* ---------- instagram ---------- */
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5)}
+.ig{aspect-ratio:1/1;position:relative;overflow:hidden;box-shadow:var(--shadow-md);display:flex;flex-direction:column;justify-content:space-between;padding:30px}
+.ig .top{display:flex;justify-content:space-between;align-items:center}
+.ig .handle{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:lowercase}
+.ig .logo{height:14px}
+.ig h3{font-family:var(--display);font-weight:600;text-transform:uppercase;line-height:.98;font-size:clamp(1.1rem,2.4vw,1.7rem)}
+.ig .foot{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+/* post 1 white */
+.ig.p1{background:#fff}
+.ig.p1 .handle{color:var(--slate-400)}
+.ig.p1 h3{color:var(--ink)} .ig.p1 h3 em{font-style:normal;color:var(--red)}
+.ig.p1 .foot{color:var(--slate-400)}
+.ig.p1 .bars{display:flex;gap:6px;margin-top:14px}
+.ig.p1 .bars i{height:8px;display:block}.ig.p1 .bars i:nth-child(1){width:42px;background:var(--red)}.ig.p1 .bars i:nth-child(2){width:22px;background:var(--ink)}
+/* post 2 — product showcase (light, image-slot) */
+.ig.p2{background:#fff;padding:0;overflow:hidden;justify-content:flex-start}
+.ig.p2 .top{padding:18px 22px 10px;flex:none}
+.ig.p2 .handle{color:var(--slate-400)}
+.ig.p2 .ig-slot{flex:1 1 0%;width:100%;min-height:0;display:block;background:#fff;object-fit:cover;object-position:center 35%}
+.ig.p2 .p2-cap{flex:none;padding:12px 22px 18px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ig.p2 h3{color:var(--ink);font-size:clamp(1rem,1.7vw,1.25rem);line-height:1.05}
+.ig.p2 .p2-sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-400);white-space:nowrap}
+/* post 3 dark stat */
+.ig.p3{background:var(--ink)}
+.ig.p3 .handle,.ig.p3 .foot{color:var(--slate-400)}
+.ig.p3 .big{font-family:var(--display);font-weight:600;font-size:clamp(3rem,8vw,5rem);color:#fff;line-height:.9}
+.ig.p3 .big em{font-style:normal;color:var(--red-bright)}
+.ig.p3 h3{color:#fff;font-size:1rem;margin-top:8px}
+@media(max-width:760px){.ig-grid{grid-template-columns:1fr 1fr}.ig{padding:22px}}
+
+.story-row{display:flex;gap:var(--s8);margin-top:var(--s8);align-items:flex-start;flex-wrap:wrap}
+.phone{width:240px;flex:none;border:10px solid #1b1c1e;border-radius:34px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
+.story{aspect-ratio:9/16;position:relative;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:26px 22px;overflow:hidden}
+.story::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px)}
+.story > *{position:relative}
+.story .chamfer{position:absolute;top:0;right:0;width:120px;height:120px;background:var(--red);--cut:40px;clip-path:polygon(100% 0,100% 100%,0 0)}
+.story .logo{height:15px}
+.story h3{font-family:var(--display);text-transform:uppercase;color:#fff;font-size:1.7rem;line-height:.98}
+.story h3 em{font-style:normal;color:var(--red-bright)}
+.story .cta{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px}
+.story .cta .arrow{font-size:18px}
+.story-note{flex:1;min-width:240px;max-width:46ch}
+.story-note h4{font-size:18px;text-transform:uppercase;margin-bottom:8px}
+.story-note p{color:var(--slate-500);font-size:14px}
+
+/* ---------- papelaria ---------- */
+.cards-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+.bcard{aspect-ratio:85/55;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.bcard.front{background:var(--red);display:flex;align-items:center;justify-content:center}
+.bcard.front::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1px,transparent 1px 22px)}
+.bcard.front .chamf{position:absolute;bottom:0;left:0;width:90px;height:90px;background:rgba(0,0,0,.12);clip-path:polygon(0 100%,0 0,100% 100%)}
+.bcard.front img{width:54%;position:relative}
+.bcard.back{background:#fff;padding:26px 30px;display:flex;flex-direction:column;justify-content:space-between}
+.bcard.back .who{font-family:var(--display);text-transform:uppercase;color:var(--ink);font-weight:600;font-size:18px}
+.bcard.back .role{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-top:4px}
+.bcard.back .info{font-family:var(--mono);font-size:11px;color:var(--slate-500);line-height:1.9;letter-spacing:.02em}
+.bcard.back .barcode{position:absolute;top:26px;right:30px;display:flex;gap:2px;height:30px;align-items:stretch}
+.bcard.back .barcode i{width:2px;background:var(--ink)}
+@media(max-width:760px){.cards-row{grid-template-columns:1fr}}
+
+.letter-row{display:grid;grid-template-columns:1fr 1.3fr;gap:var(--s6);margin-top:var(--s6);align-items:start}
+.letter{aspect-ratio:1/1.414;background:#fff;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden}
+.letter .lh{height:8px;background:var(--red)}
+.letter .lbody{padding:30px 34px;flex:1;display:flex;flex-direction:column}
+.letter .lbody img{height:18px;width:auto;align-self:flex-start;margin-bottom:30px}
+.letter .lbody .lines{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.letter .lbody .lines i{height:7px;background:var(--mist);display:block}
+.letter .lbody .lines i:nth-child(1){width:46%}.letter .lbody .lines i:nth-child(2){width:88%}.letter .lbody .lines i:nth-child(3){width:80%}.letter .lbody .lines i:nth-child(4){width:92%}.letter .lbody .lines i:nth-child(5){width:64%}
+.letter .lf{margin-top:auto;padding:14px 34px;border-top:1px solid var(--line);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-400);display:flex;justify-content:space-between}
+.env{aspect-ratio:1/0.5;background:#fff;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;display:flex;align-items:center;padding:0 40px}
+.env .lh{position:absolute;top:0;left:0;right:0;height:7px;background:var(--red)}
+.env img{height:18px;width:auto;flex:none}
+.env .ret{position:absolute;left:40px;bottom:34px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--slate-500);line-height:1.7;text-transform:uppercase}
+.env .stamp{position:absolute;top:34px;right:40px;width:56px;height:64px;border:1px dashed var(--slate-300);display:flex;align-items:center;justify-content:center;color:var(--slate-300);font-family:var(--mono);font-size:8px;text-align:center;text-transform:uppercase}
+@media(max-width:760px){.letter-row{grid-template-columns:1fr}}
+
+/* ---------- presentation ---------- */
+.slides-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6)}
+.slide{aspect-ratio:16/9;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);padding:7% 7% 6%;display:flex;flex-direction:column}
+.slide .topbar{position:absolute;top:0;left:0;right:0;height:6px;background:var(--red);z-index:3}
+.slide.title{background:var(--ink);justify-content:space-between}
+.slide.title::after{content:"";position:absolute;right:-50px;bottom:-50px;width:42%;aspect-ratio:1;background:var(--red);clip-path:polygon(0 0,100% 0,100% 100%);opacity:.9}
+.slide.title .eb{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--red-bright)}
+.slide.title h3{font-family:var(--display);text-transform:uppercase;color:#fff;font-size:clamp(1.1rem,2.5vw,2rem);line-height:1;max-width:15ch;position:relative;z-index:2}
+.slide.title img{height:15px;width:auto;align-self:flex-start;position:relative;z-index:2}
+.slide.content{background:#fff;justify-content:flex-start}
+.slide.content .eb{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.slide.content h3{font-family:var(--display);text-transform:uppercase;color:var(--ink);font-size:clamp(1.05rem,2.1vw,1.6rem);line-height:1.02;margin-bottom:auto}
+.slide.content .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5%;margin-top:22px}
+.slide.content .cols .c .cn{font-family:var(--display);font-weight:600;font-size:clamp(1.4rem,3.4vw,2rem);color:var(--red);line-height:1}
+.slide.content .cols .c .ct{font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--slate-500);margin-top:6px}
+.slide.content .foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:14px}
+.slide.content .foot .pg{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--slate-400);text-transform:uppercase;white-space:nowrap}
+.slide.content img{height:12px}
+@media(max-width:760px){.slides-row{grid-template-columns:1fr}}
+
+.backlink{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-500);margin-bottom:var(--s8)}
+.backlink:hover{color:var(--red)}
+.endspace{height:var(--s24)}
+</style>
+</head>
+<body>
+
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#CB161D"/>
+  <rect x="30" y="46.5" width="40" height="7" fill="#ffffff"/>
+  <text x="50" y="38" font-family="Arial, sans-serif" font-weight="700" font-size="13" fill="#ffffff" text-anchor="middle" letter-spacing="1">IP</text>
+  <text x="50" y="70" font-family="monospace" font-size="6" fill="#ffffff" text-anchor="middle" letter-spacing="1">APLICAÇÕES</text>
+</svg>
+</template>
+
+<nav class="nav">
+  <div class="wrap row">
+    <div class="brand">
+      <img src="brand/logo-red.png" alt="Imagepack">
+      <span class="tag mono">Aplicações</span>
+    </div>
+    <div class="links">
+      <a href="#landing">Landing</a>
+      <a href="#social">Social</a>
+      <a href="#papelaria">Papelaria</a>
+      <a href="#apresentacao">Apresentação</a>
+      <a href="index.html">← Fundamentos</a>
+    </div>
+  </div>
+</nav>
+
+<header class="pagehead">
+  <div class="wrap">
+    <a class="backlink" href="index.html">← Design System</a>
+    <span class="eyebrow">Aplicações do sistema</span>
+    <h1 style="margin-top:18px">O sistema em uso</h1>
+    <p class="lead">O mesmo DNA aplicado em quatro frentes — landing page, redes sociais, papelaria e apresentação. A garrafa é um produto real Imagepack; demais imagens são placeholders, prontas para receber fotos da sua linha.</p>
+  </div>
+</header>
+
+<!-- ===================== LANDING ===================== -->
+<section class="appsec" id="landing">
+  <div class="wrap">
+    <div class="lab"><span class="n">A1</span><h2>Landing page</h2><span class="d">Campanha de captação — desktop. Vermelho cirúrgico, muito branco.</span></div>
+    <div class="browser">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">imagepack.com.br/embalagens-personalizadas</span></div>
+      <div class="lp-nav">
+        <img src="brand/logo-red.png" alt="Imagepack">
+        <div class="menu"><span>Soluções</span><span>Sobre</span><span>Unidades</span><button class="btn cut" style="padding:10px 16px;font-size:12px">Orçamento</button></div>
+      </div>
+      <div class="lp-hero">
+        <div>
+          <span class="eyebrow">Embalagens para alimentos & bebidas</span>
+          <h2 style="margin-top:18px">Embalagens que <em>protegem</em> e destacam sua marca</h2>
+          <p>Frascos, tampas e garrafas PET personalizados — do projeto à entrega, com acabamento de alta resolução. De Guarulhos para todo o Brasil.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn cut btn-arrow">Solicitar orçamento</button><button class="btn btn-ghost">Ver soluções</button></div>
+        </div>
+        <div class="kv-stage cut-tr-bl">
+          <img class="prod" src="brand/prod-bebida.jpg" alt="Garrafa PET Imagepack">
+          <span class="cap">Garrafa PET · Bebidas</span>
+        </div>
+      </div>
+      <div class="lp-strip">
+        <div class="s"><div class="num"><em>+10</em></div><div class="t">Anos de mercado</div></div>
+        <div class="s"><div class="num">+200</div><div class="t">Clientes ativos</div></div>
+        <div class="s"><div class="num">100%</div><div class="t">Brasileira</div></div>
+        <div class="s"><div class="num">2</div><div class="t">Unidades · SP+MG</div></div>
+      </div>
+
+      <!-- product line inside landing -->
+      <div class="lp-products">
+        <div class="lp-prod-head">
+          <span class="eyebrow">Linha de produtos</span>
+          <a class="lp-prod-all" href="#">Ver catálogo completo →</a>
+        </div>
+        <div class="prod-grid">
+          <div class="prod-card">
+            <div class="prod-img"><img src="brand/prod-bebida.jpg" alt="Garrafa PET"></div>
+            <div class="prod-body"><span class="seg food">Bebidas</span><div class="prod-name">Garrafa PET</div><div class="prod-spec">PET · 300–900 ml</div></div>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img"><img src="brand/prod-frasco.jpg" alt="Frasco PEAD"></div>
+            <div class="prod-body"><span class="seg chem">Saneantes</span><div class="prod-name">Frasco PEAD</div><div class="prod-spec">PEAD · 500 ml–1 L</div></div>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img"><img src="brand/prod-bisnaga.jpg" alt="Bisnaga"></div>
+            <div class="prod-body"><span class="seg food">Alimentício</span><div class="prod-name">Bisnaga</div><div class="prod-spec">PP · tampa flip-top</div></div>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img"><img src="brand/prod-pote.jpg" alt="Pote"></div>
+            <div class="prod-body"><span class="seg disp">Cosméticos</span><div class="prod-name">Pote oval</div><div class="prod-spec">PEAD · tampa rosca</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOCIAL ===================== -->
+<section class="appsec" id="social">
+  <div class="wrap">
+    <div class="lab"><span class="n">A2</span><h2>Redes sociais</h2><span class="d">Feed 1:1 e story 9:16. Sistema modular: declaração, produto e número.</span></div>
+    <div class="ig-grid">
+      <div class="ig p1">
+        <div class="top"><span class="handle">@imagepack</span><img class="logo" src="brand/logo-red.png" alt=""></div>
+        <div>
+          <h3>Embalagem<br>personalizada<br><em>do projeto à entrega</em></h3>
+          <div class="bars"><i></i><i></i></div>
+        </div>
+        <span class="foot">Guarulhos — SP · Extrema — MG</span>
+      </div>
+      <div class="ig p2">
+        <div class="top"><span class="handle">@imagepack</span><img class="logo" src="brand/logo-red.png" alt=""></div>
+        <img class="ig-slot" src="brand/prod-pote.jpg" alt="Pote Imagepack">
+        <div class="p2-cap"><span class="seg food">Alimentício</span><h3>Sua marca na prateleira</h3><span class="p2-sub">Frascos · tampas · PET</span></div>
+      </div>
+      <div class="ig p3">
+        <div class="top"><span class="handle">@imagepack</span><img class="logo" src="brand/logo-white.png" alt=""></div>
+        <div><div class="big">+10<em>.</em></div><h3>anos protegendo marcas</h3></div>
+        <span class="foot">+200 clientes ativos</span>
+      </div>
+    </div>
+
+    <div class="story-row">
+      <div class="phone">
+        <div class="story">
+          <div class="chamfer"></div>
+          <img class="logo" src="brand/logo-white.png" alt="">
+          <h3>Sua marca<br>merece a <em>embalagem</em><br>certa.</h3>
+          <div class="cta"><span class="arrow">↑</span><span>Arraste para cima</span></div>
+        </div>
+      </div>
+      <div class="story-note">
+        <h4>Story de campanha</h4>
+        <p>Formato vertical 9:16 com o corte chanfrado no canto, logo em negativo e CTA em mono. A base escura faz o vermelho brilhar — ideal para anúncios e destaques.</p>
+        <div style="display:flex;gap:8px;margin-top:16px"><span class="tag">9:16 · 1080×1920</span><span class="tag red">● Direção Grafite</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PAPELARIA ===================== -->
+<section class="appsec" id="papelaria">
+  <div class="wrap">
+    <div class="lab"><span class="n">A3</span><h2>Cartão & papelaria</h2><span class="d">Cartão frente/verso, papel timbrado e envelope. Acabamento sóbrio.</span></div>
+    <div class="cards-row">
+      <div class="bcard front cut-tr"><div class="chamf"></div><img src="brand/logo-white.png" alt=""></div>
+      <div class="bcard back cut-tr">
+        <div class="barcode"><i style="height:100%"></i><i style="height:80%"></i><i style="width:4px"></i><i style="height:100%"></i><i style="height:60%"></i><i></i><i style="width:3px;height:90%"></i><i style="height:100%"></i></div>
+        <div><div class="who">Nome Sobrenome</div><div class="role">Comercial · Embalagens</div></div>
+        <div class="info">+55 11 0000-0000<br>nome@imagepack.com.br<br>Guarulhos — SP · Extrema — MG</div>
+      </div>
+    </div>
+
+    <div class="letter-row">
+      <div class="letter">
+        <div class="lh"></div>
+        <div class="lbody">
+          <img src="brand/logo-red.png" alt="">
+          <div class="kicker">À / Cliente · 02 jun 2026</div>
+          <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="lf"><span>imagepack.com.br</span><span>Pantone 1797</span></div>
+      </div>
+      <div>
+        <div class="env">
+          <div class="lh"></div>
+          <img src="brand/logo-red.png" alt="">
+          <div class="ret">Imagepack Embalagens<br>Guarulhos — SP · CEP 00000-000</div>
+          <div class="stamp">Selo</div>
+        </div>
+        <div class="card" style="margin-top:var(--s6)">
+          <span class="eyebrow slate">Acabamentos sugeridos</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+            <span class="tag">Papel 300g</span><span class="tag">Verniz localizado</span><span class="tag red">● Hot stamping vermelho</span><span class="tag">Corte reto</span>
+          </div>
+          <p class="muted" style="font-size:14px;margin:16px 0 0">Cartão em papelão rígido reforça o posicionamento de uma empresa de embalagens — o material é parte da mensagem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APRESENTAÇÃO ===================== -->
+<section class="appsec" id="apresentacao">
+  <div class="wrap">
+    <div class="lab"><span class="n">A4</span><h2>Apresentação institucional</h2><span class="d">16:9 — capa em grafite e slide de conteúdo claro.</span></div>
+    <div class="slides-row">
+      <div class="slide title">
+        <span class="eb">Apresentação institucional · 2026</span>
+        <h3>Embalagens personalizadas com precisão industrial</h3>
+        <img src="brand/logo-white.png" alt="">
+      </div>
+      <div class="slide content">
+        <div class="topbar"></div>
+        <span class="eb">Quem somos</span>
+        <h3>Escala industrial, acabamento de precisão</h3>
+        <div class="cols">
+          <div class="c"><div class="cn">+10</div><div class="ct">Anos de mercado</div></div>
+          <div class="c"><div class="cn">02</div><div class="ct">Unidades · SP+MG</div></div>
+          <div class="c"><div class="cn">+200</div><div class="ct">Clientes ativos</div></div>
+        </div>
+        <div class="foot"><span class="pg">02 / 12</span><img src="brand/logo-red.png" alt=""></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="endspace"></div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="grid2">
+      <div>
+        <img class="lg" src="brand/logo-white.png" alt="Imagepack">
+        <p style="max-width:46ch">Aplicações do Design System — versão 1.0. As imagens são placeholders e devem ser substituídas por fotografia real de embalagens.</p>
+      </div>
+      <div>
+        <span class="eyebrow slate" style="margin-bottom:14px;display:inline-flex">Navegar</span>
+        <div class="applink">
+          <a href="index.html#cores">Fundamentos & cores <span>↗</span></a>
+          <a href="index.html#tipografia">Tipografia <span>↗</span></a>
+          <a href="index.html#componentes">Componentes <span>↗</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>Imagepack · Aplicações v1.0</span>
+      <span>Pantone 1797 · +10 anos de mercado</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
